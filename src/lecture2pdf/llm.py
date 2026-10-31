@@ -63,6 +63,8 @@ class LLMClient:
             except LLMError as e:  # 服务端不接受更大的上限：保留已有结果
                 logger.warning(f"[{self.name}] 放宽长度上限失败（{e}）")
                 break
+        if not text:
+            raise LLMError(f"[{self.name}] 模型返回空内容（输出长度上限内只产生了思考过程）")
         if cut:
             logger.warning(f"[{self.name}] 输出因长度上限被截断")
         return text
@@ -93,7 +95,7 @@ class LLMClient:
                     self.calls += 1
                     self.prompt_tokens += pin
                     self.completion_tokens += pout
-                if not text:
+                if not text and not cut:  # 截断导致的空内容交给 chat() 放宽上限重试
                     raise LLMError("模型返回空内容")
                 return text, cut
             except Exception as e:  # noqa: BLE001  网络/限流/5xx 统一重试

@@ -5,6 +5,9 @@
 \usepackage[most]{tcolorbox}
 \usepackage{fancyhdr}
 
+% 正文里直接写的希腊字母（如「Dirac δ 函数」）：Latin Modern 文本字体没有这些字形，交给中文字体排版
+\xeCJKDeclareCharClass{CJK}{"0391 -> "03A9, "03B1 -> "03C9}
+
 % ---------------------------------------------------------------- 颜色
 \definecolor{l2pblue}{RGB}{45,95,180}
 \definecolor{l2pgreen}{RGB}{0,150,70}

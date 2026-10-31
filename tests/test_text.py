@@ -149,3 +149,13 @@ def test_llm_retries_when_truncated(monkeypatch):
 
     monkeypatch.setattr(c, "_chat", fake)
     assert c.chat("s", "u") == "完整" and calls == [8192, 16384]
+
+
+def test_llm_retries_when_reasoning_eats_budget(monkeypatch):
+    from lecture2pdf.config import LLMEndpoint
+    from lecture2pdf.llm import LLMClient
+
+    c = LLMClient(LLMEndpoint("k", "http://localhost", "m"), "测试")
+    # 推理模型把额度全用在思考上：正文为空、finish_reason=length
+    monkeypatch.setattr(c, "_chat", lambda m, t, mt: ("正文" if mt >= 16384 else "", 1, 1, mt < 16384))
+    assert c.chat("s", "u") == "正文"
