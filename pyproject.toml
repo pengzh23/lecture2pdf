@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lecture2pdf"
+dynamic = ["version"]
+description = "把课程视频（网址或本地文件）整理成教材风格的 PDF 讲义：语音转写 + 板书/PPT 识别 + LLM 整理"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Zuhao Peng", email = "181577883+pengzh23@users.noreply.github.com" }]
+keywords = ["lecture", "notes", "whisper", "ocr", "llm", "pdf", "education"]
+dependencies = [
+    "numpy>=1.24",
+    "pillow>=10.0",
+    "faster-whisper>=1.0",
+    "yt-dlp>=2024.1",
+    "openai>=1.30",
+    "python-dotenv>=1.0",
+    "opencc-python-reimplemented>=0.1.7",
+    "pypandoc_binary>=1.13",
+]
+
+[project.optional-dependencies]
+# 默认的中文语音识别引擎（FunASR Paraformer）；只用 Whisper 时可不装
+funasr = ["funasr>=1.1", "modelscope>=1.15", "torch>=2.1", "torchaudio>=2.1"]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+lecture2pdf = "lecture2pdf.cli:main"
+lecture2pdf-doctor = "lecture2pdf.doctor:main"
+
+[project.urls]
+Homepage = "https://github.com/pengzh23/lecture2pdf"
+Issues = "https://github.com/pengzh23/lecture2pdf/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "lecture2pdf.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+lecture2pdf = ["templates/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501", "B008"]

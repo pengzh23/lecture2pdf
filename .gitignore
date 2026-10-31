@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# 密钥 / 本地配置（绝不要提交）
+.env
+cookies*.txt
+
+# 数据：视频、中间产物、输出（体积大，且课程视频可能涉及版权）
+data/samples/*
+data/output/*
+/output/
+data/*.log
+data/*.sh
+!data/**/.gitkeep
+
+# 个人待办（不随项目发布）
+SETUP_GUIDE.md
+
+# 编辑器
+.vscode/
+.idea/
+
+# 第三方参考资料（版权不属于本项目）
+examples/*.pdf
+*:Zone.Identifier

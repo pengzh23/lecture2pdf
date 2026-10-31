@@ -1,0 +1,86 @@
+% lecture2pdf 讲义样式（由 pandoc -H 引入；文档类为 ctexart）
+\usepackage{amssymb,mathrsfs,bm}
+\usepackage{float}
+\floatplacement{figure}{H}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+
+% ---------------------------------------------------------------- 颜色
+\definecolor{l2pblue}{RGB}{45,95,180}
+\definecolor{l2pgreen}{RGB}{0,150,70}
+\definecolor{l2pcyan}{RGB}{0,160,225}
+\definecolor{l2porange}{RGB}{230,110,20}
+\definecolor{l2ppurple}{RGB}{120,70,170}
+\definecolor{l2pred}{RGB}{200,30,30}
+
+% ---------------------------------------------------------------- 标题样式
+\ctexset{
+  section = {format = \Large\bfseries\color{l2pblue}\centering,
+             beforeskip = 3.2ex plus 1ex minus .2ex, afterskip = 2ex plus .2ex},
+  subsection = {format = \large\bfseries\color{l2pblue}\raggedright,
+                beforeskip = 2.4ex plus 1ex minus .2ex, afterskip = 1.2ex plus .2ex},
+  subsubsection = {format = \normalsize\bfseries\color{l2pblue}\raggedright,
+                   beforeskip = 1.8ex plus .6ex minus .2ex, afterskip = 1ex plus .2ex},
+}
+\setlength{\parskip}{0.3ex plus 0.2ex}
+
+% ---------------------------------------------------------------- 页眉页脚
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\nouppercase{\rightmark}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\sectionmark}[1]{\markboth{\thesection\quad #1}{\thesection\quad #1}}
+\renewcommand{\subsectionmark}[1]{}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+% ---------------------------------------------------------------- 定义 / 定理等彩色框
+\tcbset{
+  l2pbox/.style = {
+    enhanced, breakable, arc = 2mm, boxrule = 0.8pt,
+    colframe = #1, colback = #1!4, coltitle = white,
+    fonttitle = \bfseries\small,
+    attach boxed title to top left = {xshift = 4mm, yshift = -2.6mm},
+    boxed title style = {sharp corners, boxrule = 0pt, colback = #1, colframe = #1},
+    left = 3mm, right = 3mm, top = 3.2mm, bottom = 2mm,
+    before skip = 2.4ex, after skip = 2.2ex,
+    separator sign none, description delimiters = {（}{）},
+  },
+  % 无边框：标签（\tcbtitle）由 theorems.lua 插入到首段开头，与正文同一行
+  l2pplain/.style = {
+    blanker, breakable, detach title, before skip = 1.2ex, after skip = 1.2ex,
+    coltitle = #1, fonttitle = \bfseries, separator sign none, description delimiters = {（}{）},
+  },
+}
+\newtcbtheorem[number within = section]{definition}{定义}{l2pbox = l2pgreen}{def}
+\newtcbtheorem[number within = section]{theorem}{定理}{l2pbox = l2porange}{thm}
+\newtcbtheorem[number within = section]{proposition}{命题}{l2pbox = l2pcyan}{prop}
+\newtcbtheorem[number within = section]{property}{性质}{l2pbox = l2pcyan}{prty}
+\newtcbtheorem[number within = section]{lemma}{引理}{l2pbox = l2pcyan}{lem}
+\newtcbtheorem[number within = section]{corollary}{推论}{l2pbox = l2pcyan}{cor}
+\newtcbtheorem[number within = section]{example}{例}{l2pplain = l2pblue}{ex}
+\newtcbtheorem[no counter]{remark}{注}{l2pplain = l2pred}{rem}
+% 公设 / 公理等不参与编号、标题原样显示的框
+\newtcolorbox{postulate}[1]{l2pbox = l2ppurple, title = {#1}}
+\newtcolorbox{proofbox}{blanker, breakable, before skip = 1ex, after skip = 1.4ex,
+  after upper = {\hfill$\square$}}
+
+% ---------------------------------------------------------------- 常用宏
+\providecommand{\ket}[1]{\left|#1\right\rangle}
+\providecommand{\bra}[1]{\left\langle#1\right|}
+\providecommand{\braket}[2]{\left\langle#1\middle|#2\right\rangle}
+\providecommand{\norm}[1]{\left\lVert#1\right\rVert}
+\providecommand{\abs}[1]{\left|#1\right|}
+\providecommand{\inner}[2]{\left\langle#1,#2\right\rangle}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\dd}{\mathrm{d}}
+\providecommand{\tr}{\operatorname{tr}}
+\providecommand{\Tr}{\operatorname{Tr}}
+\providecommand{\supp}{\operatorname{supp}}
+\providecommand{\spec}{\operatorname{spec}}
+\setlength{\emergencystretch}{3em}
+\AtBeginDocument{\renewcommand{\figurename}{图}\renewcommand{\tablename}{表}%
+  \renewcommand{\contentsname}{目录}\renewcommand{\abstractname}{内容提要}}
